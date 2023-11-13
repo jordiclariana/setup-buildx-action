@@ -77,6 +77,7 @@ actionsToolkit.run(
           inputs.driverOpts = [...inputs.driverOpts, ...certsDriverOpts];
         }
         const createCmd = await toolkit.buildx.getCommand(await context.getCreateArgs(inputs, toolkit));
+        console.log(`CreateCMD: ${createCmd.command} ${createCmd.args}`)
         await exec.exec(createCmd.command, createCmd.args);
       });
     }
@@ -95,6 +96,7 @@ actionsToolkit.run(
             node['driver-opts'] = [...(node['driver-opts'] || []), ...certsDriverOpts];
           }
           const appendCmd = await toolkit.buildx.getCommand(await context.getAppendArgs(inputs, node, toolkit));
+          console.log(`AppendCMD: ${appendCmd.command} ${appendCmd.args}`)
           await exec.exec(appendCmd.command, appendCmd.args);
           nodeIndex++;
         }
@@ -103,6 +105,7 @@ actionsToolkit.run(
 
     await core.group(`Booting builder`, async () => {
       const inspectCmd = await toolkit.buildx.getCommand(await context.getInspectArgs(inputs, toolkit));
+      console.log(`InspectCMD: ${inspectCmd.command} ${inspectCmd.args}`)
       await exec.exec(inspectCmd.command, inspectCmd.args);
     });
 
@@ -112,6 +115,7 @@ actionsToolkit.run(
       }
       await core.group(`Setting buildx as default builder`, async () => {
         const installCmd = await toolkit.buildx.getCommand(['install']);
+        console.log(`InstallCMD: ${installCmd.command} ${installCmd.args}`)
         await exec.exec(installCmd.command, installCmd.args);
       });
     }
